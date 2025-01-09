@@ -1,3 +1,6 @@
+# Copyright 2025 Wesley Piard
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 import re
 
 from aqt import mw, gui_hooks
@@ -26,17 +29,35 @@ def webview_schedule_kanji(wv: AnkiWebView):
         # filter out any kanji in relevant decks that are already being learned
         # we only care about kanji that are still "new", so that we can schedule them
         new_kanji = []
+        all_kanji = []
+        new_cids = []
+        all_cids = []
         for k in selected_kanji_list:
-            cids = mw.col.find_cards(f"kanji:{k} -card:PRODUCTION is:new")
-            new_kanji.append(k)
+            tmp_cids = list(mw.col.find_cards(f"kanji:{k} -card:PRODUCTION is:new"))
+            if tmp_cids:
+                new_kanji.append(k)
+                new_cids.extend(tmp_cids)
 
-        if not cids:
+            tmp_cids = list(mw.col.find_cards(f"kanji:{k} -card:PRODUCTION"))
+            if tmp_cids:
+                all_kanji.append(k)
+                all_cids.extend(tmp_cids)
+
+        assert len(all_kanji) >= len(new_kanji)
+
+        if not all_kanji:
+            showInfo("The selected kanji do not exist in the deck.")
+
+        if not new_kanji:
             showInfo("No new kanji in selection.")
             return
         else:
             # TODO: ask user for string of number/range of days to schedule
-            showInfo("New kanji to schedule: " + "".join(new_kanji))
-            mw.col.sched.set_due_date(cids, "0")
+            # showInfo("New kanji to schedule: " + "".join(new_kanji))
+            showInfo(f"type of new_cids: {type(new_cids)}")
+            showInfo("New cids to schedule: " + ", ".join(str(c) for c in new_cids))
+            mw.col.sched.set_due_date(new_cids, "0")
+            showInfo("New kanji scheduled!\n" + "".join(new_kanji))
             return
 
 
