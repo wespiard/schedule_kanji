@@ -54,8 +54,8 @@ def webview_schedule_kanji(wv: AnkiWebView):
         else:
             # TODO: ask user for string of number/range of days to schedule
             # showInfo("New kanji to schedule: " + "".join(new_kanji))
-            showInfo(f"type of new_cids: {type(new_cids)}")
-            showInfo("New cids to schedule: " + ", ".join(str(c) for c in new_cids))
+            # showInfo(f"type of new_cids: {type(new_cids)}")
+            # showInfo("New cids to schedule: " + ", ".join(str(c) for c in new_cids))
             mw.col.sched.set_due_date(new_cids, "0")
             showInfo("New kanji scheduled!\n" + "".join(new_kanji))
             return
