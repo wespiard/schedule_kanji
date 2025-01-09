@@ -1,0 +1,20 @@
+[project]
+name = "schedule-kanji"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Wesley Piard", email = "1278350+wespiard@users.noreply.github.com" }
+]
+requires-python = ">=3.9.18"
+dependencies = [
+    "aqt[qt6]>=24.11",
+    "mypy>=1.14.1",
+]
+
+[project.scripts]
+schedule-kanji = "schedule_kanji:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
